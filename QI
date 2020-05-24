@@ -1,7 +1,18 @@
-echo "# resonator" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git remote add origin https://github.com/cbhwang/resonator.git
-git push -u origin master
-                
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from IPython.display import display
+from resonator_tools import circuit
+df=pd.read_csv('C:/Users/data4.csv',sep=',')
+port1 = circuit.reflection_port(f_data=df["<b>XY-Frequency</b>"].values,
+                                z_data_raw=10**(df["A(V)"].values)*np.exp(1j*df["phase"].values))
+plt.rcParams["figure.figsize"] = [15,10]
+plt.subplot(224)
+df1=pd.read_csv('C:/Users/data (4).csv',sep=',')
+plt.xlabel('I', fontsize = 16) 
+plt.ylabel('Q', fontsize = 16)
+x_data=df1["I"].values
+y_data=df1["Q"].values
+line1,=plt.plot(x_data,y_data)
+plt.legend('original data')
+port1.plotrawdata()
